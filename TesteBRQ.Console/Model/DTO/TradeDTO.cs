@@ -8,7 +8,8 @@ namespace TesteBRQ.Console.Model.DTO
 		private double _value;
 		private string _clientSector;
 		private DateTime _nextPaymentDate = DateTime.MinValue;
-		
+		private bool _isPoliticallyExposed = false;
+
 		private string _categoryName = "NOT_MAPPED";
 		private DateTime _referenceDate = DateTime.MinValue;
 
@@ -22,18 +23,23 @@ namespace TesteBRQ.Console.Model.DTO
 			get => _clientSector;
 		}
 		
-
 		public DateTime NextPaymentDate 
 		{
 			get => _nextPaymentDate;
 		}
 
+		public bool IsPoliticallyExposed
+		{
+			get => _isPoliticallyExposed;
+		}
 
-		public TradeDTO(double tradeValue, string clientSector, DateTime nextPaymentDate) 
+
+		public TradeDTO(double tradeValue, string clientSector, DateTime nextPaymentDate, bool? isPoliticallyExposed = false) 
 		{ 
 			_value = tradeValue;
 			_clientSector = clientSector;
 			_nextPaymentDate = nextPaymentDate;
+			_isPoliticallyExposed = (isPoliticallyExposed.HasValue) ? isPoliticallyExposed.Value : false;
 		}
 
 		public void SetCategoryName(string categoryName) => _categoryName = categoryName;
@@ -45,11 +51,13 @@ namespace TesteBRQ.Console.Model.DTO
 		public static bool TryParse(string value, out TradeDTO? result)
 		{
 			char separator = ' ';
-			int expectedSize = 3;
+			int expectedSize = 4;
+			int expectedSizeLegacy = 3; //created to maintain compatibility to trades in files that do not expose the new property
 
 			double tradeValue = 0;
 			string clientSector = string.Empty;
 			DateTime nextPaymentDate = DateTime.MinValue;
+			bool isPoliticallyExposed = false;
 
 			result = null;
 			string[] allowedSectors = { "Private", "Public" };
@@ -59,7 +67,7 @@ namespace TesteBRQ.Console.Model.DTO
 
 			var valueArray = value.Split(separator, StringSplitOptions.RemoveEmptyEntries);
 			
-			if(valueArray.Length != expectedSize )
+			if(valueArray.Length != expectedSize && valueArray.LongLength != expectedSizeLegacy)
 				return false;
 
 			if (!double.TryParse(valueArray[0], out tradeValue))
@@ -71,8 +79,12 @@ namespace TesteBRQ.Console.Model.DTO
 
 			if (!DateTime.TryParse(valueArray[2], CultureInfo.InvariantCulture ,out nextPaymentDate))
 				return false;
-			
-			result = new TradeDTO(tradeValue, clientSector, nextPaymentDate);
+
+			if (valueArray.Length == expectedSize)
+				if (!Boolean.TryParse(valueArray[3].ToLower(), out isPoliticallyExposed))
+					return false;
+
+			result = new TradeDTO(tradeValue, clientSector, nextPaymentDate, isPoliticallyExposed);
 			return true;
 		}
 	}

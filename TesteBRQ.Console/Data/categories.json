@@ -33,5 +33,14 @@
 				"parameters": [ 1000000, 0 ]
 			}
 		]
+	},
+	{
+		"name": "PEP",
+		"rules": [
+			{
+				"type": "IsPoliticallyExposedRule",
+				"parameters": [ true ]
+			}
+		]
 	}
 ]
