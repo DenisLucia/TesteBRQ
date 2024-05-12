@@ -46,11 +46,11 @@ namespace TesteBRQ.Console.Model.Rules
 
 		public EvaluationStatus Evaluate(TradeDTO trade)
 		{
-			if (trade.NextPaymentDate >= trade.ReferenceDate)
+			if (trade.NextPaymentDate >= trade.GetReferenceDate())
 				return EvaluationStatus.NonAdherent;
 
 
-			var days = (trade.ReferenceDate - trade.NextPaymentDate).Days;
+			var days = (trade.GetReferenceDate() - trade.NextPaymentDate).Days;
 
 			if ((days <= MaxExpirationInDays || MaxExpirationInDays == 0) &&
 			    (days >= MinExpirationInDays))

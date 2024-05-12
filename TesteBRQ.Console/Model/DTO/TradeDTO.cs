@@ -1,21 +1,46 @@
 ﻿using System.Globalization;
+using TesteBRQ.Console.Model.Interfaces;
 
 namespace TesteBRQ.Console.Model.DTO
 {
-	public class TradeDTO
+	public class TradeDTO : ITrade
 	{
-		public double Value { get; set; }
-		public string ClientSector { get; set; }
-		public DateTime NextPaymentDate { get; set; }
-		public string CategoryName { get; set; } = "NOT_MAPPED";
-		public DateTime ReferenceDate { get; set; }
+		private double _value;
+		private string _clientSector;
+		private DateTime _nextPaymentDate = DateTime.MinValue;
+		
+		private string _categoryName = "NOT_MAPPED";
+		private DateTime _referenceDate = DateTime.MinValue;
+
+		public double Value
+		{
+			get => _value;
+		}
+
+		public string ClientSector
+		{ 
+			get => _clientSector;
+		}
+		
+
+		public DateTime NextPaymentDate 
+		{
+			get => _nextPaymentDate;
+		}
+
 
 		public TradeDTO(double tradeValue, string clientSector, DateTime nextPaymentDate) 
 		{ 
-			Value = tradeValue;
-			ClientSector = clientSector;
-			NextPaymentDate = nextPaymentDate;
+			_value = tradeValue;
+			_clientSector = clientSector;
+			_nextPaymentDate = nextPaymentDate;
 		}
+
+		public void SetCategoryName(string categoryName) => _categoryName = categoryName;
+		public string GetCategoryName() => _categoryName;
+
+		public void SetReferenceDate(DateTime referenceDate) => _referenceDate = referenceDate;
+		public DateTime GetReferenceDate() => _referenceDate;
 
 		public static bool TryParse(string value, out TradeDTO? result)
 		{

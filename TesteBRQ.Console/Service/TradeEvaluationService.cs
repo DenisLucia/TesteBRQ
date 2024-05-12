@@ -177,7 +177,7 @@ namespace TesteBRQ.Console.Service
 						}
 						else
 						{
-							trade.ReferenceDate = refDate;
+							trade.SetReferenceDate(refDate);
 							trades.Add(trade!);
 						}
 							
@@ -240,7 +240,7 @@ namespace TesteBRQ.Console.Service
 
 					if (isThis)
 					{
-						trade.CategoryName = category.Name;
+						trade.SetCategoryName(category.Name);
 						break;
 					}
 				}

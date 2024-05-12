@@ -40,7 +40,7 @@ namespace TesteBRQ.Console.Model.DTO
 			sb.AppendLine("--------------------------------------");
 
 			foreach (var trade in this.Trades)
-				sb.AppendLine(trade.CategoryName);
+				sb.AppendLine(trade.GetCategoryName());
 
 			if (Errors.Count > 0)
 			{
