@@ -1,0 +1,37 @@
+﻿[
+	{
+		"name": "EXPIRED",
+		"rules": [
+			{
+				"type": "ExpirationPeriodRule",
+				"parameters": [30, 0]
+			}
+		]
+	},
+	{
+		"name": "HIGHRISK",
+		"rules": [
+			{
+				"type": "ClientSectorRule",
+				"parameters": [ "Private" ]
+			},
+			{
+				"type": "TradeValueRangeRule",
+				"parameters": [ 1000000, 0 ]
+			}
+		]
+	},
+	{
+		"name": "MEDIUMRISK",
+		"rules": [
+			{
+				"type": "ClientSectorRule",
+				"parameters": [ "Public" ]
+			},
+			{
+				"type": "TradeValueRangeRule",
+				"parameters": [ 1000000, 0 ]
+			}
+		]
+	}
+]
